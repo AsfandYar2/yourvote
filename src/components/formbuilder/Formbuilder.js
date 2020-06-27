@@ -61,7 +61,7 @@ function Formbuilder({ publish, forms }) {
     else if (e.target.value === "no")
       setpublishType({ ...publishtype, [e.target.name]: false });
     else {
-      let pattern = new RegExp(/[!@#$%^&*;'(),.?":{}|<>1-9]/g);
+      let pattern = new RegExp(/[!#$%^&*;'(),.?":{}|<>1-9]/g);
       let test = pattern.test(e.target.value);
       if (test) return alert("Other then alphbet and hyphen!");
       setpublishType({ ...publishtype, [e.target.name]: e.target.value });
