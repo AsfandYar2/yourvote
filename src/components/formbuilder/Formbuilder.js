@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import FormBuiGenView from './Views/FormBuiGenView';
-import Publish from './Views/Publish';
-import Design from './Views/Design';
-import Modal from 'react-modal';
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
+import FormBuiGenView from "./Views/FormBuiGenView";
+import Publish from "./Views/Publish";
+import Design from "./Views/Design";
+import Modal from "react-modal";
 
 const correctFormElementName = (userSubmitData, formData) => {
   const data = [];
@@ -24,7 +24,7 @@ function Formbuilder({ publish, forms }) {
 
   const onPost = (data) => {
     setformData([...data.task_data]);
-    localStorage.setItem('task_data', JSON.stringify(data.task_data));
+    localStorage.setItem("task_data", JSON.stringify(data.task_data));
   };
 
   const onSubmit = (userData) => {
@@ -34,9 +34,9 @@ function Formbuilder({ publish, forms }) {
 
   // Design.js stateNfunctions
   const [type, setType] = useState({
-    ftype: 'popins',
-    fsize: '18',
-    bgcolor: '#888ed',
+    ftype: "popins",
+    fsize: "18",
+    bgcolor: "#5744ed",
   });
 
   const onchange = (e) => setType({ ...type, [e.target.name]: e.target.value });
@@ -47,18 +47,25 @@ function Formbuilder({ publish, forms }) {
 
   // Publish.js stateNfunctions
   const [publishtype, setpublishType] = useState({
-    isLive: '',
-    clinkid: '',
-    alinktid: '',
-    retake: '',
+    // isLive: 0,
+    clinkid: "",
+    alinktid: "",
+    // retake: 0,
   });
+  const [isLive, setLive] = useState(0);
+  const [retake, setRetake] = useState(0);
 
   const publishOnChange = (e) => {
-    if (e.target.value === 'yes')
+    if (e.target.value === "yes")
       setpublishType({ ...publishtype, [e.target.name]: true });
-    else if (e.target.value === 'no')
+    else if (e.target.value === "no")
       setpublishType({ ...publishtype, [e.target.name]: false });
-    else setpublishType({ ...publishtype, [e.target.name]: e.target.value });
+    else {
+      let pattern = new RegExp(/[!@#$%^&*;'(),.?":{}|<>1-9]/g);
+      let test = pattern.test(e.target.value);
+      if (test) return alert("Other then alphbet and hyphen!");
+      setpublishType({ ...publishtype, [e.target.name]: e.target.value });
+    }
   };
 
   const onPublish = () => {
@@ -66,25 +73,27 @@ function Formbuilder({ publish, forms }) {
       title: `myform ${forms.length + 1}`,
       ...type,
       ...publishtype,
+      isLive,
+      retake,
       formData: [...formData],
       created: Date.now(),
       lastupdate: Date.now(),
     };
     publish(payload);
-    history.push('/dashboard');
+    history.push("/dashboard");
   };
 
   // current file stateNfunctions
-  const [step, setstep] = useState('build');
+  const [step, setstep] = useState("build");
 
   const setStep = (newStep) => {
-    if (newStep === 'build') return;
-    if (step === 'build') setIsOpen(true);
+    if (newStep === "build") return;
+    if (step === "build") setIsOpen(true);
     else setstep(newStep);
   };
 
   const getCurrentStep = () => {
-    if (step === 'build')
+    if (step === "build")
       return (
         <FormBuiGenView
           setStep={setStep}
@@ -93,7 +102,7 @@ function Formbuilder({ publish, forms }) {
           formData={formData}
         />
       );
-    if (step === 'design')
+    if (step === "design")
       return (
         <Design
           setStep={setStep}
@@ -104,15 +113,17 @@ function Formbuilder({ publish, forms }) {
           handleChangeComplete={handleChangeComplete}
         />
       );
-    if (step === 'publish')
+    if (step === "publish")
       return (
         <Publish
           setStep={setStep}
           onPublish={onPublish}
-          isLive={publishtype.isLive}
+          isLive={isLive}
+          setLive={setLive}
           clinkid={publishtype.clinkid}
           alinkid={publishtype.alinkid}
-          retake={publishtype.retake}
+          retake={retake}
+          setRetake={setRetake}
           publishOnChange={publishOnChange}
         />
       );
@@ -130,14 +141,14 @@ function Formbuilder({ publish, forms }) {
 
   const customStyles = {
     content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      padding: '50px',
-      zIndex: '3000',
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      padding: "50px",
+      zIndex: "3000",
     },
   };
 
@@ -152,16 +163,16 @@ function Formbuilder({ publish, forms }) {
         Do You want to Continue you wont be able to go back!
         <br />
         <button
-          className="btn form-builder-btn"
+          className="btn modal-btn"
           onClick={() => {
-            setstep('design');
+            setstep("design");
             setIsOpen(false);
           }}
         >
           Continue
         </button>
         <button
-          className="btn form-builder-btn"
+          className="btn modal-btn"
           onClick={() => {
             setIsOpen(false);
           }}
@@ -169,22 +180,29 @@ function Formbuilder({ publish, forms }) {
           Back
         </button>
       </Modal>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div
+        style={{
+          backgroundColor: "#5744ed",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <button
-          className={`btn form-builder-btn ${step === 'build' && 'selected'}`}
-          onClick={() => setStep('build')}
+          className={`btn form-builder-btn ${step === "build" && "selected"}`}
+          style={{}}
+          onClick={() => setStep("build")}
         >
           Build
         </button>
         <button
-          className={`btn form-builder-btn ${step === 'design' && 'selected'}`}
-          onClick={() => setStep('design')}
+          className={`btn form-builder-btn ${step === "design" && "selected"}`}
+          onClick={() => setStep("design")}
         >
           Design
         </button>
         <button
-          className={`btn form-builder-btn ${step === 'publish' && 'selected'}`}
-          onClick={() => setStep('publish')}
+          className={`btn form-builder-btn ${step === "publish" && "selected"}`}
+          onClick={() => setStep("publish")}
         >
           Publish
         </button>
@@ -201,7 +219,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     publish: (form) => {
-      dispatch({ type: 'PUBLISH', payload: form });
+      dispatch({ type: "PUBLISH", payload: form });
     },
   };
 };

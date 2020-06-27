@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url("https://fonts.googleapis.com/css?family=Roboto");
 
 /* Global Styles */
 :root {
@@ -13,7 +13,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   scroll-behavior: smooth;
 }
 
@@ -179,11 +179,11 @@ input {
   color: #888;
 }
 
-input[type='text'],
-input[type='number'],
-input[type='email'],
-input[type='password'],
-input[type='date'],
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
 select,
 textarea {
   display: block;
@@ -193,7 +193,7 @@ textarea {
   border: 1px solid #ccc;
 }
 
-input[type='submit'],
+input[type="submit"],
 button {
   font: inherit;
 }
@@ -253,7 +253,7 @@ h3 {
 }
 
 .landing::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0px;
   left: 0;
@@ -315,7 +315,7 @@ h3 {
   margin-top: 170px;
 }
 .wave::after {
-  content: '';
+  content: "";
   position: absolute;
   top: -230px;
   left: 0;
@@ -377,13 +377,19 @@ h3 {
 }
 
 .form-builder-btn {
+  border: 1px solid #ffffff !important;
+  margin: 2px;
+  color: white !important;
+}
+
+.modal-btn {
   border: 1px solid #5744ed !important;
   margin: 2px;
 }
 
 .selected {
-  background-color: #5744ed !important;
-  border: 1px solid black !important;
+  background-color: #fd5800 !important;
+  border: 1px solid rgb(241, 230, 230) !important;
   color: white !important;
 }
 
@@ -484,4 +490,8 @@ h3 {
     width: 100% !important;
     justify-self: center;
   }
+}
+.switch {
+  height: 50px;
+  width: 50px;
 }

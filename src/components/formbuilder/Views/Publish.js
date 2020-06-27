@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from "react";
+import Switch from "react-input-switch";
 
 export default function Publish({
   isLive,
@@ -7,17 +8,20 @@ export default function Publish({
   retake,
   publishOnChange,
   onPublish,
+  setLive,
+  setRetake,
 }) {
+  // console.log(value);
   return (
     <div
       style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '80vh',
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "80vh",
       }}
     >
-      <div className="card bg-light" style={{ padding: '40px 20px' }}>
+      <div className="card bg-light" style={{ padding: "40px 20px" }}>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -25,7 +29,14 @@ export default function Publish({
           }}
         >
           <label htmlFor="isLive">Make Survey Live:</label>
-          <p>
+          <br />
+          <Switch
+            className="switch"
+            style={{ switchSize: "50", height: "50" }}
+            value={isLive}
+            onChange={setLive}
+          />
+          {/* <p>
             <input
               type="radio"
               name="isLive"
@@ -44,7 +55,7 @@ export default function Publish({
               ></input>
               No
             </p>
-          </p>
+          </p> */}
           <br />
           <label htmlFor="clinkid">Custom Link ID:</label>
           <input
@@ -59,9 +70,17 @@ export default function Publish({
             name="alinkid"
             value={alinkid}
             onChange={publishOnChange}
+            disabled
           ></input>
           <label htmlFor="retake">Allow user to retake survey:</label>
-          <p>
+          <br />
+          <Switch
+            className="switch"
+            style={{ switchSize: "50", height: "50" }}
+            value={retake}
+            onChange={setRetake}
+          />
+          {/* <p>
             <input
               type="radio"
               name="retake"
@@ -80,14 +99,14 @@ export default function Publish({
               ></input>
               No
             </p>
-          </p>
-          <div style={{ margin: '5px' }}>
+          </p> */}
+          <div style={{ margin: "5px" }}>
             <button
               className="btn"
               style={{
-                backgroundColor: '#5744ed',
-                color: 'white',
-                margin: '5px',
+                backgroundColor: "#5744ed",
+                color: "white",
+                margin: "5px",
                 // borderRadius: "20px",
               }}
             >
